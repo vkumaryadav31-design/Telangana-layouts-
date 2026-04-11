@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndiaPropertyMaps · Map‑Based Real Estate · Partnered with DeepSeek</title>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a3a5f;
+            --secondary: #2c5282;
+            --accent: #4299e1;
+            --deepseek: #6c63ff;
+            --deepseek-dark: #4a43cc;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #38a169;
+            --warning: #ecc94b;
+            --danger: #e53e3e;
+            --premium: #d69e2e;
+            --legal: #2b6cb0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Partner badge in header */
+        .partner-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 15px;
+            border-radius: 40px;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .partner-badge i {
+            color: var(--deepseek);
+            font-size: 1.2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .admin-badge {
+            background: var(--premium);
+            color: #333;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Partnership announcement banner */
+        .partnership-banner {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0 10px;
+            border: 1px solid var(--deepseek);
+            box-shadow: 0 0 15px rgba(108, 99, 255, 0.3);
+        }
+        .partnership-banner i {
+            font-size: 2rem;
+            color: var(--deepseek);
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(26, 58, 95, 0.8), rgba(26, 58, 95, 0.9)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1973') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--premium);
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .admin-stat {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .admin-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .admin-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .admin-action {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .admin-action:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-color: var(--accent);
+        }
+        
+        /* Map Section */
+        .india-map-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .map-container {
+            height: 500px;
+            background: #e9f7fe;
+            border-radius: var(--border-radius);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .state-highlight {
+            position: absolute;
+            background: rgba(102, 153, 255, 0.5);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .state-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .state-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+        
+        .filter-section {
+            margin-bottom: 20px;
+        }
+        
+        .stats-card {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-deepseek { background: var(--deepseek); }
+        .btn-deepseek:hover { background: var(--deepseek-dark); }
+        .btn-premium { background: var(--premium); color: #333; }
+        .btn-legal { background: var(--legal); }
+        
+        .map-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .map-card {
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            background: white;
+            position: relative;
+        }
+        
+        .map-card.premium::before {
+            content: 'PREMIUM MAP';
+            position: absolute;
+            top: 10px;
+            left: -30px;
+            background: var(--premium);
+            color: #333;
+            padding: 5px 30px;
+            transform: rotate(-45deg);
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 10;
+        }
+        
+        .map-preview {
+            height: 180px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .map-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .quality-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--success);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 5;
+        }
+        
+        /* AI & Legal Section */
+        .ai-section, .legal-section {
+            background: linear-gradient(135deg, #5a52e0, #6c63ff);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+        .legal-section {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(255,255,255,0.5);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .upload-area:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .builder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .builder-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* DeepSeek partner highlight section */
+        .partner-highlight {
+            background: linear-gradient(145deg, #f1f5ff 0%, #e6ecfe 100%);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid var(--deepseek);
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.1);
+        }
+        .partner-highlight .flex-row {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .deepseek-logo-large {
+            font-size: 4rem;
+            color: var(--deepseek);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .footer-partner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #2a2a2a;
+            padding: 12px 20px;
+            border-radius: 40px;
+            margin-top: 20px;
+            border: 1px solid var(--deepseek);
+        }
+        
+        @media (max-width: 992px) {
+            .dashboard { grid-template-columns: 1fr; }
+            .admin-stats { grid-template-columns: repeat(2, 1fr); }
+            .header-content { flex-direction: column; gap: 15px; }
+        }
+        @media (max-width: 768px) {
+            .admin-stats { grid-template-columns: 1fr; }
+            .map-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-map-marked-alt"></i>
+                <div>
+                    <h1>IndiaPropertyMaps</h1>
+                    <p>Map‑Based Real Estate · Floor Plans · AI Legal</p>
+                </div>
+            </div>
+            <!-- Partner badge in header -->
+            <div class="partner-badge">
+                <i class="fas fa-handshake"></i>
+                <span>Development Partner: <strong>DeepSeek</strong></span>
+                <i class="fas fa-robot"></i>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Map Search</a></li>
+                    <li><a href="#states">Explore Maps</a></li>
+                    <li><a href="#ai">DeepSeek AI</a></li>
+                    <li><a href="#legal">Legal Desk</a></li>
+                    <li><a href="#admin">Admin & Revenue</a></li>
+                </ul>
+            </nav>
+            <div class="admin-badge"><i class="fas fa-crown"></i> ADMIN</div>
+        </div>
+    </header>
+
+    <!-- Partnership Announcement Banner -->
+    <div class="container" style="display: flex; justify-content: center;">
+        <div class="partnership-banner">
+            <i class="fas fa-robot"></i>
+            <span style="font-size: 1.2rem;"><strong>DeepSeek</strong> is the official AI & development partner of IndiaPropertyMaps</span>
+            <i class="fas fa-code-branch"></i>
+        </div>
+    </div>
+
+    <!-- Admin Panel (Revenue Streams) -->
+    <div class="container" id="admin">
+        <div class="admin-panel">
+            <div class="admin-header">
+                <h2><i class="fas fa-chart-pie"></i> Revenue Dashboard · All Streams</h2>
+                <div class="admin-badge"><i class="fas fa-wallet"></i> TOTAL REVENUE: ₹1.42 Cr</div>
+            </div>
+            <div class="admin-stats">
+                <div class="admin-stat"><h3>₹2.4L</h3><p>Subscriptions (Monthly)</p></div>
+                <div class="admin-stat"><h3>₹1.8L</h3><p>Premium Map Listings</p></div>
+                <div class="admin-stat"><h3>₹3.2L</h3><p>Ad Revenue</p></div>
+                <div class="admin-stat"><h3>₹4.7L</h3><p>Lead Generation</p></div>
+                <div class="admin-stat"><h3>₹85K</h3><p>Legal Services</p></div>
+            </div>
+            <div class="admin-actions">
+                <div class="admin-action"><i class="fas fa-upload"></i><h3>Upload Map/Plan</h3><p>Add floor plans & site maps</p></div>
+                <div class="admin-action"><i class="fas fa-file-contract"></i><h3>Legal Verification</h3><p>AI document check</p></div>
+                <div class="admin-action"><i class="fas fa-users"></i><h3>Builder Network</h3><p>Verified partners</p></div>
+                <div class="admin-action"><i class="fas fa-coins"></i><h3>Subscription Plans</h3><p>Manage tiers</p></div>
+            </div>
+            <!-- Admin note about partnership -->
+            <p style="margin-top: 20px; font-style: italic; color: #555;"><i class="fas fa-handshake" style="color: var(--deepseek);"></i> Admin tools co-developed with DeepSeek — AI‑powered analytics & automation.</p>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="container">
+        <div class="hero">
+            <h2><i class="fas fa-map-location-dot"></i> Map‑First Real Estate Across India</h2>
+            <p>Every listing comes with interactive site maps, floor plans & AI analysis. Built in partnership with DeepSeek.</p>
+            <button class="btn btn-deepseek" id="heroAiBtn"><i class="fas fa-robot"></i> Ask DeepSeek AI about any map</button>
+        </div>
+    </div>
+
+    <!-- DeepSeek Partner Highlight Section (NEW) -->
+    <div class="container partner-highlight">
+        <div class="flex-row">
+            <div style="flex: 1;">
+                <i class="fas fa-robot deepseek-logo-large"></i>
+                <h2 style="font-size: 2rem; margin: 15px 0; color: #1a1a2e;">DeepSeek × IndiaPropertyMaps</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 20px;">DeepSeek is not just our AI engine — it's our development partner. Together we've built a next‑gen real estate platform that combines intelligent map analysis, legal verification, and seamless revenue tools.</p>
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div><i class="fas fa-check-circle" style="color: var(--success);"></i> Co‑developed architecture</div>
+                    <div><i class="fas fa-check-circle" style="color: var(--success);"></i> AI model integration</div>
+                    <div><i class="fas fa-check-circle" style="color: var(--success);"></i> 24/7 technical support</div>
+                </div>
+                <button class="btn btn-deepseek" style="margin-top: 25px;" onclick="alert('DeepSeek partnership: Our AI models power map analysis, legal checks, and revenue predictions. Co-developed with DeepSeek engineers.')">
+                    <i class="fas fa-handshake"></i> Learn about the partnership
+                </button>
+            </div>
+            <div style="flex: 1; text-align: center;">
+                <div style="background: white; border-radius: 20px; padding: 25px; box-shadow: var(--shadow);">
+                    <i class="fas fa-code" style="font-size: 3rem; color: var(--deepseek);"></i>
+                    <h3>Tech Stack Co‑created</h3>
+                    <p>Frontend, AI APIs, and backend architecture designed with DeepSeek's expertise.</p>
+                    <hr style="margin: 20px 0;">
+                    <p><i class="fas fa-database"></i> Real‑time map processing<br>
+                    <i class="fas fa-shield-alt"></i> Legal AI verification<br>
+                    <i class="fas fa-chart-bar"></i> Revenue analytics dashboard</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- India Map Section -->
+    <div class="container" id="states">
+        <div class="india-map-section">
+            <div class="card-header">
+                <h2><i class="fas fa-map"></i> Map-Based Property Explorer</h2>
+                <p>Click any state · View project layouts, floor plans, and drone maps — all enhanced by DeepSeek AI</p>
+            </div>
+            <div class="map-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/India_administrative_map_blank.svg" alt="India Map" style="max-height: 100%;">
+                <div class="state-highlight" style="top:25%; left:20%; width:80px; height:60px;" data-state="maharashtra"></div>
+                <div class="state-highlight" style="top:30%; left:35%; width:70px; height:70px;" data-state="karnataka"></div>
+                <div class="state-highlight" style="top:15%; left:30%; width:50px; height:40px;" data-state="gujarat"></div>
+                <div class="state-highlight" style="top:40%; left:35%; width:50px; height:60px;" data-state="tamil-nadu"></div>
+                <div class="map-overlay" style="position:absolute; bottom:0; left:0; right:0; background:rgba(26,58,95,0.8); color:white; padding:15px; text-align:center;">
+                    <h3><i class="fas fa-draw-polygon"></i> Every project includes: Site Map · Floor Plan · 3D Layout</h3>
+                    <p style="margin-top:5px;"><i class="fas fa-robot"></i> DeepSeek AI validates map accuracy & legal compliance</p>
+                </div>
+            </div>
+            <div class="state-selection">
+                <div class="state-card" data-state="maharashtra"><i class="fas fa-map"></i><h4>Maharashtra</h4><p>1,240 map listings</p></div>
+                <div class="state-card" data-state="karnataka"><i class="fas fa-map"></i><h4>Karnataka</h4><p>980 map listings</p></div>
+                <div class="state-card" data-state="delhi"><i class="fas fa-map"></i><h4>Delhi NCR</h4><p>720 map listings</p></div>
+                <div class="state-card" data-state="telangana"><i class="fas fa-map"></i><h4>Telangana</h4><p>680 map listings</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload & Verified Builders -->
+    <div class="container">
+        <div class="card" style="margin: 30px 0;">
+            <div class="card-header">
+                <h2><i class="fas fa-cloud-upload-alt"></i> Upload Property Maps & Floor Plans</h2>
+                <span class="quality-indicator" style="position:static;">Connect with verified builders</span>
+            </div>
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-map-signs" style="font-size: 3rem; color: var(--primary);"></i>
+                <h3>Drag & Drop or Click to Upload</h3>
+                <p>Supported: PDF, CAD, high-res images. DeepSeek AI will auto‑tag, geolocate, and check for authenticity.</p>
+                <button class="btn btn-premium" style="margin-top:15px;"><i class="fas fa-upload"></i> Upload Map / Floor Plan</button>
+            </div>
+            <div style="margin-top: 30px;">
+                <h3><i class="fas fa-check-circle" style="color:var(--success);"></i> Verified Builders & Agents</h3>
+                <div class="builder-grid">
+                    <div class="builder-card"><i class="fas fa-building" style="font-size:2rem;"></i><h4>DLF Ltd.</h4><p>✓ 120+ map projects</p></div>
+                    <div class="builder-card"><i class="fas fa-building"></i><h4>Godrej Properties</h4><p>✓ 95 floor plans</p></div>
+                    <div class="builder-card"><i class="fas fa-building"></i><h4>Prestige Group</h4><p>✓ 210+ site maps</p></div>
+                    <div class="builder-card"><i class="fas fa-user-tie"></i><h4>Anarock Agents</h4><p>✓ Verified partners</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DeepSeek AI + Legal Services -->
+    <div class="container">
+        <div class="ai-section" id="ai">
+            <div class="ai-header" style="display:flex; justify-content:space-between;">
+                <h2><i class="fas fa-robot"></i> DeepSeek AI · Map Intelligence & Legal (Partner Powered)</h2>
+                <span class="quality-indicator"><i class="fas fa-bolt"></i> 98.7% accuracy</span>
+            </div>
+            <p>Analyze floor plans, detect discrepancies, predict property value, and integrated legal services — all built on DeepSeek's AI infrastructure.</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:20px; margin:20px 0;">
+                <div style="background:rgba(255,255,255,0.15); border-radius:8px; padding:20px; text-align:center;">
+                    <i class="fas fa-map"></i><h3>Map Authencity</h3><p>Verify layout vs actual</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.15); border-radius:8px; padding:20px; text-align:center;">
+                    <i class="fas fa-balance-scale"></i><h3>Legal Document AI</h3><p>RERA, encumbrance scan</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.15); border-radius:8px; padding:20px; text-align:center;">
+                    <i class="fas fa-chart-line"></i><h3>Value Prediction</h3><p>Map-based price trends</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.15); border-radius:8px; padding:20px; text-align:center;">
+                    <i class="fas fa-file-signature"></i><h3>Title Verification</h3><p>AI legal opinion</p>
+                </div>
+            </div>
+            <div class="ai-chat" style="background:white; border-radius:8px; padding:20px; margin-top:20px;">
+                <div class="chat-header"><i class="fas fa-robot" style="color:var(--deepseek);"></i><h3 style="color:#333;">Ask DeepSeek about map legality or floor plan</h3></div>
+                <div class="chat-messages" id="chatMessages" style="height:150px; overflow-y:auto; background:#f9f9f9; padding:10px; border-radius:8px;">
+                    <div class="message ai"><strong>DeepSeek AI:</strong> As your development partner, I can review uploaded maps, check RERA compliance, and connect you to legal advisors.</div>
+                </div>
+                <div class="chat-input" style="display:flex; gap:10px; margin-top:15px;">
+                    <input type="text" placeholder="e.g., 'Is this floor plan FSI compliant?'" id="chatInput" style="flex:1; padding:12px; border:1px solid #ddd; border-radius:8px;">
+                    <button class="btn btn-deepseek" id="sendChatBtn">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legal Services -->
+        <div class="legal-section" id="legal">
+            <h2><i class="fas fa-gavel"></i> India Real Estate Legal Desk · Powered by DeepSeek</h2>
+            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:20px;">
+                <div style="flex:1; background:rgba(255,255,255,0.15); border-radius:8px; padding:20px;">
+                    <i class="fas fa-file-contract fa-2x"></i>
+                    <h3>Title Search & Verification</h3>
+                    <p>AI scans 30-year chain, flags discrepancies.</p>
+                    <button class="btn btn-legal legalAction">Start Legal Check</button>
+                </div>
+                <div style="flex:1; background:rgba(255,255,255,0.15); border-radius:8px; padding:20px;">
+                    <i class="fas fa-scale-balanced fa-2x"></i>
+                    <h3>RERA & Compliance</h3>
+                    <p>Instant project registration validation.</p>
+                    <button class="btn btn-legal legalAction">Verify RERA</button>
+                </div>
+                <div style="flex:1; background:rgba(255,255,255,0.15); border-radius:8px; padding:20px;">
+                    <i class="fas fa-hand-holding-usd fa-2x"></i>
+                    <h3>Legal Advisory</h3>
+                    <p>Connect with empanelled advocates.</p>
+                    <button class="btn btn-legal legalAction">Book Consultation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content: Map Listings -->
+    <div class="container">
+        <div class="dashboard">
+            <div class="sidebar">
+                <div class="filter-section">
+                    <h3><i class="fas fa-map-pin"></i> Map Search</h3>
+                    <input type="text" placeholder="City, project, or map ID" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+                    <select style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+                        <option>All Map Types</option><option>Site Map</option><option>Floor Plan</option><option>Master Plan</option>
+                    </select>
+                    <button class="btn btn-deepseek" style="width:100%;"><i class="fas fa-search"></i> AI Map Search</button>
+                </div>
+                <div class="stats-card"><h4>Verified Maps</h4><p>12,480</p></div>
+                <div class="stats-card"><h4>Floor Plans</h4><p>8,340</p></div>
+                <div class="filter-section">
+                    <h4>💰 Revenue Streams</h4>
+                    <p><i class="fas fa-star" style="color:gold;"></i> Premium Map Listings</p>
+                    <p><i class="fas fa-ad"></i> Targeted Ads</p>
+                    <p><i class="fas fa-users"></i> Lead Gen (Builder/Agent)</p>
+                    <p><i class="fas fa-gem"></i> Subscription Plans</p>
+                    <p><i class="fas fa-handshake" style="color: var(--deepseek);"></i> DeepSeek Partner API</p>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="card">
+                    <div class="card-header" style="display:flex; justify-content:space-between;">
+                        <h2><i class="fas fa-layer-group"></i> Map‑Based Listings · Floor Plans & Layouts</h2>
+                        <button class="btn" id="addLayoutBtn"><i class="fas fa-plus"></i> Upload New Map</button>
+                    </div>
+                    <div class="map-grid">
+                        <!-- Card 1 -->
+                        <div class="map-card premium">
+                            <span class="quality-indicator"><i class="fas fa-robot"></i> DeepSeek Verified</span>
+                            <div class="map-card-header" style="padding:15px; background:linear-gradient(to right, var(--primary), var(--accent)); color:white;"><h3>Ocean View · Master Plan</h3></div>
+                            <div class="map-preview"><img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=1996" alt="Site Map"></div>
+                            <div class="map-card-body" style="padding:15px;">
+                                <p><i class="fas fa-map-marker-alt"></i> Worli, Mumbai</p>
+                                <p><i class="fas fa-draw-polygon"></i> Site map + 4 floor plans</p>
+                                <p><i class="fas fa-building"></i> Builder: Lodha Group ✓</p>
+                                <div class="map-actions" style="display:flex; gap:10px; margin-top:15px;">
+                                    <button class="btn viewMapBtn">View Map</button>
+                                    <button class="btn btn-deepseek analyzeBtn">AI Analyze</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="map-card premium">
+                            <span class="quality-indicator"><i class="fas fa-robot"></i> DeepSeek Verified</span>
+                            <div class="map-card-header" style="padding:15px; background:linear-gradient(to right, var(--primary), var(--accent)); color:white;"><h3>Tech Park · Floor Plan</h3></div>
+                            <div class="map-preview"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070" alt="Floor Plan"></div>
+                            <div class="map-card-body" style="padding:15px;">
+                                <p><i class="fas fa-map-marker-alt"></i> Whitefield, Bangalore</p>
+                                <p><i class="fas fa-ruler-combined"></i> 3BHK layout + site map</p>
+                                <p><i class="fas fa-building"></i> Prestige Group ✓</p>
+                                <div class="map-actions" style="display:flex; gap:10px; margin-top:15px;">
+                                    <button class="btn viewMapBtn">View Map</button>
+                                    <button class="btn btn-deepseek analyzeBtn">AI Analyze</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="map-card">
+                            <span class="quality-indicator"><i class="fas fa-robot"></i> AI Verified</span>
+                            <div class="map-card-header" style="padding:15px; background:linear-gradient(to right, var(--primary), var(--accent)); color:white;"><h3>Heritage Gardens · Plot Map</h3></div>
+                            <div class="map-preview"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070" alt="Plot Map"></div>
+                            <div class="map-card-body" style="padding:15px;">
+                                <p><i class="fas fa-map-marker-alt"></i> Alipore, Kolkata</p>
+                                <p><i class="fas fa-draw-polygon"></i> Land survey + floor plan</p>
+                                <p><i class="fas fa-user-check"></i> Verified Agent: Ambuja</p>
+                                <div class="map-actions" style="display:flex; gap:10px; margin-top:15px;">
+                                    <button class="btn viewMapBtn">View Map</button>
+                                    <button class="btn btn-deepseek analyzeBtn">AI Analyze</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="map-card">
+                            <span class="quality-indicator"><i class="fas fa-robot"></i> AI Verified</span>
+                            <div class="map-card-header" style="padding:15px; background:linear-gradient(to right, var(--primary), var(--accent)); color:white;"><h3>Capital Heights · 2D/3D Plan</h3></div>
+                            <div class="map-preview"><img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974" alt="Floor Plan"></div>
+                            <div class="map-card-body" style="padding:15px;">
+                                <p><i class="fas fa-map-marker-alt"></i> Connaught Place, Delhi</p>
+                                <p><i class="fas fa-cubes"></i> 3D walkthrough + floor map</p>
+                                <p><i class="fas fa-building"></i> Tata Housing ✓</p>
+                                <div class="map-actions" style="display:flex; gap:10px; margin-top:15px;">
+                                    <button class="btn viewMapBtn">View Map</button>
+                                    <button class="btn btn-deepseek analyzeBtn">AI Analyze</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with partnership emphasis -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>IndiaPropertyMaps</h3>
+                    <p>Map-based real estate with integrated AI legal & revenue streams.</p>
+                    <div class="footer-partner">
+                        <i class="fas fa-robot" style="color: var(--deepseek); font-size: 1.5rem;"></i>
+                        <span>Co-developed with <strong>DeepSeek</strong></span>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Map Services</h3>
+                    <ul style="list-style:none;"><li>Site Maps</li><li>Floor Plans</li><li>Master Plans</li><li>3D Layouts</li></ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Revenue Model</h3>
+                    <ul style="list-style:none;"><li>Subscriptions</li><li>Premium Maps</li><li>Ads & Lead Gen</li><li>Legal Fees</li></ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Admin & Upload</h3>
+                    <ul style="list-style:none;"><li>Upload Map/Plan</li><li>Builder Verification</li><li>Revenue Dashboard</li><li>Legal Partner</li></ul>
+                </div>
+            </div>
+            <div class="copyright" style="text-align:center; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1); margin-top:30px;">
+                <p>© 2025 IndiaPropertyMaps · Map-Based Real Estate · Development Partner: <strong style="color: var(--deepseek);">DeepSeek</strong> · Total Revenue: ₹1.42Cr+</p>
+                <p style="margin-top: 8px; font-size: 0.85rem;"><i class="fas fa-code"></i> Website architecture, AI models, and legal engine co‑created with DeepSeek</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function(){
+            function showDemoMessage(msg) {
+                alert(msg);
+            }
+
+            // State selection
+            document.querySelectorAll('.state-card, .state-highlight').forEach(el => {
+                el.addEventListener('click', function() {
+                    let state = this.getAttribute('data-state') || 'india';
+                    showDemoMessage(`🗺️ DeepSeek AI loading map-based listings for ${state.toUpperCase()}. Includes site maps, floor plans & legal status.`);
+                });
+            });
+
+            // Upload
+            const uploadArea = document.getElementById('uploadArea');
+            if(uploadArea) {
+                uploadArea.addEventListener('click', () => showDemoMessage('📂 Upload Panel (DeepSeek AI integration): Upload PDF, CAD, or images. AI will process and geotag.'));
+            }
+            document.querySelectorAll('.admin-action, #addLayoutBtn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    if(btn.classList.contains('admin-action')) {
+                        let title = btn.querySelector('h3')?.innerText || 'Action';
+                        showDemoMessage(`Admin (co-developed with DeepSeek): ${title} panel.`);
+                    } else {
+                        showDemoMessage('📂 Upload new map / floor plan. DeepSeek AI will auto-verify and tag.');
+                    }
+                });
+            });
+
+            document.getElementById('heroAiBtn')?.addEventListener('click', () => showDemoMessage('DeepSeek AI (development partner): Ask me anything about property maps, floor plans, or legal compliance.'));
+
+            document.querySelectorAll('.viewMapBtn').forEach(btn => {
+                btn.addEventListener('click', () => showDemoMessage('🗺️ Interactive map viewer: site plan, floor plans, and 3D walkthrough (demo).'));
+            });
+            document.querySelectorAll('.analyzeBtn').forEach(btn => {
+                btn.addEventListener('click', () => showDemoMessage('🤖 DeepSeek AI Analysis: Authenticity 96% · RERA compliant · Predicted growth +12% YoY.'));
+            });
+
+            document.querySelectorAll('.legalAction').forEach(btn => {
+                btn.addEventListener('click', () => showDemoMessage('⚖️ Legal Desk (powered by DeepSeek): AI title verification, RERA check, or consultation.'));
+            });
+
+            // Chat
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendChatBtn');
+            const chatMessages = document.getElementById('chatMessages');
+
+            function addChatMessage(text, sender = 'user') {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'message ' + sender;
+                msgDiv.innerHTML = sender === 'user' ? `<strong>You:</strong> ${text}` : `<strong>DeepSeek AI:</strong> ${text}`;
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            if(sendBtn && chatInput) {
+                sendBtn.addEventListener('click', () => {
+                    const txt = chatInput.value.trim();
+                    if(txt) {
+                        addChatMessage(txt, 'user');
+                        chatInput.value = '';
+                        setTimeout(() => {
+                            addChatMessage("As your development partner, I've analyzed the map/legal query. The floor plan appears FSI compliant and RERA registered. Would you like a detailed report?", 'ai');
+                        }, 700);
+                    }
+                });
+                chatInput.addEventListener('keypress', (e) => {
+                    if(e.key === 'Enter') sendBtn.click();
+                });
+            }
+
+            // extra partner button
+            document.querySelector('.partner-highlight .btn')?.addEventListener('click', function(e) {
+                showDemoMessage('DeepSeek is our co-development partner: AI models, map processing, legal AI, and dashboard analytics built together.');
+            });
+        })();
+    </script>
+</body>
+</html>
