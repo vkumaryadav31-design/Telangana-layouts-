@@ -1,0 +1,70 @@
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const preview = document.getElementById('preview');
+
+// Drag-and-drop handlers
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.style.borderColor = '#007bff';
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.style.borderColor = '#ccc';
+});
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  const files = e.dataTransfer.files;
+  if (files.length) handleFiles(files);
+});
+
+// File input handler
+fileInput.addEventListener('change', (e) => {
+  handleFiles(e.target.files);
+});
+
+// Preview files
+function handleFiles(files) {
+  Array.from(files).forEach(file => {
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        preview.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      preview.innerHTML += `<p>${file.name} (${file.type})</p>`;
+    }
+  });
+}
+
+// Upload logic (to be integrated with backend)
+async function handleUpload() {
+  const title = document.getElementById('title').value;
+  const description = document.getElementById('description').value;
+  const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
+  const files = fileInput.files;
+
+  if (!files.length || !title) {
+    alert('Please add a title and select files!');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('description', description);
+  formData.append('tags', JSON.stringify(tags));
+  Array.from(files).forEach(file => formData.append('files', file));
+
+  try {
+    const response = await fetch('/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    const result = await response.json();
+    alert(result.message);
+  } catch (err) {
+    alert('Upload failed!');
+  }
+}
